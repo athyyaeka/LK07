@@ -86,13 +86,13 @@ public class SiswaApp extends JFrame {
         tombolPanel.setBackground(new Color(252, 248, 250)); // Rose white
         tombolPanel.setBorder(BorderFactory.createEmptyBorder(12, 15, 12, 15));
 
-        JButton tambahBtn = new JButton("➕ Tambah");
+        JButton tambahBtn = new JButton("Tambah");
         styleButton(tambahBtn, new Color(240, 250, 240), new Color(200, 230, 200)); // Mint soft
         
-        JButton updateBtn = new JButton("✏️  Update");
+        JButton updateBtn = new JButton("Update");
         styleButton(updateBtn, new Color(250, 245, 255), new Color(210, 190, 230)); // Lavender soft
         
-        JButton hapusBtn = new JButton("🗑️ Hapus");
+        JButton hapusBtn = new JButton("Hapus");
         styleButton(hapusBtn, new Color(255, 245, 245), new Color(240, 200, 200)); // Rose soft
 
         tambahBtn.addActionListener(e -> tambahData());
@@ -121,7 +121,6 @@ public class SiswaApp extends JFrame {
         });
     }
 
-    // 2. MUAT DATA SAAT START
     private void loadData() {
         dataList = FileManager.loadFromFile();
         tampilkanTabel();
@@ -134,7 +133,6 @@ public class SiswaApp extends JFrame {
         }
     }
 
-    // 3. TAMBAH DATA + CEK DUPLIKAT NIS
     private void tambahData() {
         String nis = nisField.getText().trim();
         String nama = namaField.getText().trim();
@@ -145,7 +143,6 @@ public class SiswaApp extends JFrame {
             return;
         }
 
-        // Exception handling duplikat NIS
         if (FileManager.isNisExists(nis)) {
             try {
                 throw new DuplicateNisException("NIS " + nis + " sudah ada!");
@@ -155,7 +152,6 @@ public class SiswaApp extends JFrame {
             }
         }
 
-        // Tambah dan simpan ke CSV
         Siswa siswaBaru = new Siswa(nis, nama, alamat);
         dataList.add(siswaBaru);
         FileManager.saveToFile(dataList);
@@ -164,7 +160,6 @@ public class SiswaApp extends JFrame {
         JOptionPane.showMessageDialog(this, "Data ditambahkan!");
     }
 
-    // 5. UPDATE & DELETE → UPDATE CSV
     private void updateData() {
         int baris = table.getSelectedRow();
         if (baris < 0) {
@@ -179,7 +174,6 @@ public class SiswaApp extends JFrame {
             return;
         }
 
-        // Update data & simpan CSV
         Siswa siswa = dataList.get(baris);
         String nisLama = siswa.getNis();
         String nisBaru = nisField.getText().trim();
